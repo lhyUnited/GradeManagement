@@ -1,6 +1,6 @@
 <template>
   <el-row>
-    <el-input placeholder="请输入任意关键词查询" style="width: 200px" v-model="keyWords"></el-input>
+    <el-input placeholder="请输入任意关键词查询" style="width: 200px" v-model="keyWord"></el-input>
     <el-button @click="clearField">清空</el-button>
     <el-table
       :data="gradeData"
@@ -30,7 +30,7 @@ export default {
   name: 'GradeList',
   data () {
     return {
-      keyWords: '',
+      keyWord: '',
       gradeList: [],
       method: 'listAllGrade'
     }
@@ -57,7 +57,7 @@ export default {
   },
   methods: {
     clearField () {
-      this.keyWords = ''
+      this.keyWord = ''
     }
   }
 }

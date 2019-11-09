@@ -11,7 +11,6 @@
         <el-tabs v-model="tabValue" type="card" closable @tab-remove="removeTab">
           <el-tab-pane
             v-for="(item, index) in tabNames"
-            :data="tabData"
             :key="item.name"
             :label="item.title"
             :name="item.name">
@@ -39,8 +38,10 @@ export default {
   watch: {
     'tabValue': function (val) {
       if (val === '0') val = ''
-      let url = '/home/' + val
-      this.$router.push(url)
+      let url = val
+      this.$router.push(url).catch(err => {
+        console.log(err)
+      })
     }
   },
   methods: {

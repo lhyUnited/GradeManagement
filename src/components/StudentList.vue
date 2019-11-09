@@ -38,12 +38,12 @@
         width="180">
       </el-table-column>
       <el-table-column
-        prop="clazzID"
+        prop="clazzId"
         label="班级"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="gradeID"
+        prop="gradeId"
         label="年级"
         width="180">
       </el-table-column>
@@ -79,6 +79,11 @@ export default {
         })
       }
       return this.studentList
+    }
+  },
+  methods: {
+    clearField () {
+      this.keyWord = ''
     }
   }
 }
