@@ -8,7 +8,16 @@
         <admin-nav></admin-nav>
       </el-aside>
       <el-main>
-        <router-view></router-view>
+        <el-tabs v-model="tabValue" type="card" closable @tab-remove="removeTab">
+          <el-tab-pane
+            v-for="(item, index) in tabNames"
+            :data="tabData"
+            :key="item.name"
+            :label="item.title"
+            :name="item.name">
+          </el-tab-pane>
+          <router-view @getTabName="getTabName"></router-view>
+        </el-tabs>
       </el-main>
     </el-container>
   </el-container>
@@ -23,6 +32,48 @@ export default {
   components: {AdminNav, HomeHeader, ClassInfo},
   data () {
     return {
+      tabNames: [],
+      tabValue: ''
+    }
+  },
+  watch: {
+    'tabValue': function (val) {
+      if (val === '0') val = ''
+      let url = '/home/' + val
+      this.$router.push(url)
+    }
+  },
+  methods: {
+    getTabName (val) {
+      var flag = true
+      for (let i = 0; i < this.tabNames.length; i++) {
+        if (val.name === this.tabNames[i].name) {
+          flag = false
+        }
+      }
+      if (flag) {
+        this.tabNames.push(val)
+      }
+      this.tabValue = val.name
+    },
+    removeTab (targetName) {
+      let tabs = this.tabNames
+      let activeName = this.tabValue
+      if (activeName === targetName) {
+        tabs.forEach((tab, index) => {
+          if (tab.name === targetName) {
+            let nextTab = tabs[index + 1] || tabs[index - 1]
+            if (nextTab) {
+              activeName = nextTab.name
+            } else {
+              this.$router.push('/home')
+            }
+          }
+        })
+      }
+
+      this.tabValue = activeName
+      this.tabNames = tabs.filter(tab => tab.name !== targetName)
     }
   }
 }
