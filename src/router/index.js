@@ -29,7 +29,10 @@ export default new Router({
       children: [{
         path: 'listAllClazz',
         name: 'ListAllClass',
-        component: ClazzList
+        component: ClazzList,
+        meta: {
+          title: '班级列表'
+        }
       },
       {
         path: 'listAllTeacher',
