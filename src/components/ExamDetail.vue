@@ -59,7 +59,7 @@ export default {
       examId: '',
       disabled: true,
       keyWord: '',
-      scoreData: ''
+      scoreData: []
     }
   },
   computed: {
@@ -97,15 +97,7 @@ export default {
   methods: {
     // 给子组件传值，并唤起对话框
     scoreAnalyse () {
-      var scores = this.scoreList
-      for (let i = 0; i < scores.length; i++) {
-        let temp = scores[i]
-        for (var j = i - 1; j >= 0 && scores[j].score > temp.score; j--) {
-          scores[j + 1] = scores[j]
-        }
-        scores[j + 1] = temp
-      }
-      this.scoreData = scores
+      this.scoreData = this.scoreList
       this.visible = true
     },
     getExamData () {
@@ -113,6 +105,15 @@ export default {
         .then(res => {
           if (res.data.code === '200') {
             this.scoreList = res.data.data
+            var scores = this.scoreList
+            for (let i = 0; i < scores.length; i++) {
+              let temp = scores[i]
+              for (var j = i - 1; j >= 0 && scores[j].score > temp.score; j--) {
+                scores[j + 1] = scores[j]
+              }
+              scores[j + 1] = temp
+            }
+            this.scoreList = scores
           }
         })
     }

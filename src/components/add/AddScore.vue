@@ -29,7 +29,7 @@
           label="得分">
           <template slot-scope="scope">
             <el-form-item :prop="'scoreData.' + scope.$index + '.score'" :rules="ruleForm.rules.score">
-              <el-input style="width: 60px;" v-model.number="scope.row.score" maxlength="3"></el-input>
+              <el-input style="width: 60px;" v-model="scope.row.score" maxlength="3"></el-input>
             </el-form-item>
           </template>
         </el-table-column>
@@ -44,15 +44,19 @@ export default {
   props: ['visible', 'examId'],
   data () {
     var validateScore = (rule, value, callback) => {
-      var temp = Number(value)
-      if (!temp) {
-        callback(new Error('请输入数字值'))
-      }
-      if (value === '') {
-        callback(new Error('请输入成绩'))
-      } else if (temp < 0 || temp > 150) {
-        callback(new Error('确保范围在0-150'))
+      value = String(value)
+      for (let i = 0; i < value.length; i++) {
+        if (value.charAt(i) < '0' || value.charAt(i) > '9') {
+          callback(new Error('请输入0~150的数字值'))
+        } else {
+          var temp = Number(value)
+          if (temp > 150 || temp < 0) {
+            callback(new Error('请输入0~150的数字值'))
+          }
+        }
       }callback()
+      // console.log(value)
+      // console.log(typeof value)
     }
     return {
       classByExamList: [],
@@ -98,7 +102,7 @@ export default {
     },
     submitForm () {
       var body = JSON.stringify(this.ruleForm.scoreData)
-      console.log(body)
+      // console.log(body)
       this.$refs.rulForm.validate((valid) => {
         if (valid) {
           this.$confirm('确定提交吗？', '提交', {
