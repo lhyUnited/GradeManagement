@@ -2,7 +2,7 @@
 
 > 一个基于Vue的项目前端
 
-## Build Setup
+## 说明
 
 ``` bash
 # install dependencies
