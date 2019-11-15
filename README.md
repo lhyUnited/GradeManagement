@@ -5,26 +5,11 @@
 ## 说明
 
 ``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
+端口：8888
+路由模式： history
+--------------------------------------------------------------
+#ATTENTION
+##在后端正常运行的情况下，本项目才可以正常发送axios请求，否则将无法进入登录界面
+[项目后端传送门](ttps://github.com/sky1225/studentmanager)
 ```
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
