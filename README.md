@@ -1,6 +1,6 @@
-# grademanagement
+# 学生成绩管理系统
 
-> A Vue.js project成绩管理系统
+> 一个基于Vue的项目前端
 
 ## Build Setup
 
