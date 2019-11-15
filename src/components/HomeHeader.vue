@@ -4,7 +4,15 @@
       <h1>学生成绩管理系统</h1>
     </el-col>
     <el-col :span="12">
-      <span>欢迎，{{username}}{{role}}</span>
+      <el-dropdown>
+        <el-avatar src="https://cube.elemecdn.com/0/88/03b0d39583f48206768a7534e55bcpng.png"></el-avatar>
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item @click.native="logOut">注销</el-dropdown-item>
+        </el-dropdown-menu>
+      </el-dropdown>
+      <div>
+        <span>欢迎，{{username}}</span>
+      </div>
     </el-col>
   </el-row>
 </template>
@@ -14,8 +22,7 @@ export default {
   name: 'Header',
   data () {
     return {
-      username: '',
-      role: ''
+      username: ''
     }
   },
   mounted () {
@@ -24,15 +31,11 @@ export default {
   methods: {
     getUserInfo () {
       let info = JSON.parse(localStorage.getItem('UserInfo'))
-      this.username = info.account
-      console.log(info.type)
-      if (info.type === '1') {
-        this.role = '同学'
-      } else if (info.type === '2') {
-        this.role = '老师'
-      } else {
-        this.role = '管理员'
-      }
+      this.username = info.name
+    },
+    logOut () {
+      localStorage.clear()
+      this.$router.push('/')
     }
   }
 }

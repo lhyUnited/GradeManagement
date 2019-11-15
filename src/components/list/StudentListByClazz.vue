@@ -1,19 +1,14 @@
 <template>
   <el-row>
-    <add-student :visible.sync="visible"></add-student>
-    <el-button type="success" style="float: left" @click="showAddDialog">添加</el-button>
-    <el-button type="danger" style="float: left"  @click="deleteStudent">删除</el-button>
     <el-input style="width: 200px;" placeholder="请输入任意关键词进行查询" v-model="keyWord"></el-input>
     <el-button @click="clearField">清空</el-button>
+    <div style="float: right"><a>总计{{studentData.length}}条数据</a></div>
     <el-table
       ref="table"
-      max-height="700"
+      max-height="500"
       :data="studentData"
       stripe
       style="width: 100%">
-      <el-table-column
-      type="selection"
-      width="60"></el-table-column>
       <el-table-column
         prop="id"
         label="学生ID"
@@ -59,23 +54,29 @@
 </template>
 
 <script>
-import AddStudent from '@/components/AddStudent'
 export default {
-  name: 'StudentList',
-  components: {AddStudent},
+  name: 'StudentListByClazz',
   data () {
     return {
-      keyWord: '',
-      method: 'listAllStudent',
       studentList: [],
-      visible: false
+      studentId: '',
+      keyWord: ''
     }
   },
   created () {
-    this.$emit('getTabName', {title: '学生列表', name: this.method})
-    this.axios.get('/system/list?method=' + this.method)
+    var studentInfo = JSON.parse(localStorage.getItem('StudentInfo'))
+    this.studentId = studentInfo.id
+    this.axios.get('/student/listClazzByStudent?studentId=' + this.studentId)
       .then(res => {
-        this.studentList = res.data.data
+        if (res.data.code === '200') {
+          this.studentList = res.data.data
+        }
+      }).catch(error => {
+        console.log(error)
+        this.$message({
+          message: '网络错误',
+          type: 'error'
+        })
       })
   },
   computed: {
@@ -94,29 +95,6 @@ export default {
   methods: {
     clearField () {
       this.keyWord = ''
-    },
-    showAddDialog () {
-      this.visible = true
-    },
-    deleteStudent () {
-      var _counts = this.$refs.table.selection
-      if (_counts.length > 0) {
-        this.$confirm('确定删除吗？此操作不支持撤销！', '删除', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.$notify({
-            type: 'success',
-            message: '删除成功!'
-          })
-        }).catch(() => {
-          this.$notify({
-            type: 'info',
-            message: '已取消删除'
-          })
-        })
-      }
     }
   }
 }

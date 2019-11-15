@@ -5,7 +5,9 @@
     </el-header>
     <el-container>
       <el-aside>
-        <admin-nav></admin-nav>
+        <admin-nav v-show="admin"></admin-nav>
+        <teacher-nav v-show="teacher"></teacher-nav>
+        <student-nav v-show="student"></student-nav>
       </el-aside>
       <el-main>
         <el-tabs v-model="tabValue" type="card" closable @tab-remove="removeTab">
@@ -25,15 +27,23 @@
 <script>
 import ClassInfo from '@/components/ClassInfo'
 import HomeHeader from '@/components/HomeHeader'
-import AdminNav from '@/components/AdminNav'
+import AdminNav from '@/components/nav/AdminNav'
+import TeacherNav from '@/components/nav/TeacherNav'
+import StudentNav from '@/components/nav/StudentNav'
 export default {
   name: 'HomePage',
-  components: {AdminNav, HomeHeader, ClassInfo},
+  components: {StudentNav, TeacherNav, AdminNav, HomeHeader, ClassInfo},
   data () {
     return {
       tabNames: [],
-      tabValue: ''
+      tabValue: '',
+      admin: '',
+      teacher: '',
+      student: ''
     }
+  },
+  mounted () {
+    this.changeNav()
   },
   watch: {
     'tabValue': function (val) {
@@ -45,6 +55,16 @@ export default {
     }
   },
   methods: {
+    changeNav () {
+      let info = JSON.parse(localStorage.getItem('UserInfo'))
+      if (info.type === 1) {
+        this.admin = true
+      } else if (info.type === 2) {
+        this.student = true
+      } else {
+        this.teacher = true
+      }
+    },
     getTabName (val) {
       var flag = true
       for (let i = 0; i < this.tabNames.length; i++) {
@@ -67,7 +87,7 @@ export default {
             if (nextTab) {
               activeName = nextTab.name
             } else {
-              this.$router.push('/home')
+              this.$router.push('/home/intro')
             }
           }
         })

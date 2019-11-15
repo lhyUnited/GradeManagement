@@ -28,8 +28,14 @@ new Vue({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.meta.title) {
-    document.title = to.meta.title
+  if (to.matched.some(record => record.meta.isLogin)) { // 判断该路由是否需要登录权限
+    if (!localStorage.getItem('UserInfo') && to.name !== '/login') {
+      next('/')
+      console.log('进入了这个判断')
+    } else {
+      next()
+    }
+  } else {
+    next()
   }
-  next()
 })

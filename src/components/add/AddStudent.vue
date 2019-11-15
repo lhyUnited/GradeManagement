@@ -17,8 +17,15 @@
       <el-form-item label="qq" prop="qq">
         <el-input v-model="addForm.qq" placeholder="请输入qq号" @input="checkQq"></el-input>
       </el-form-item>
-      <el-form-item label="班级" prop="classForm">
-        <el-cascader clearable :options="addForm.gradeList" v-model="addForm.classForm" @change="handleChange"></el-cascader>
+      <el-form-item label="年级" prop="grade">
+        <el-select v-model="addForm.grade" @change="getClassList">
+          <el-option v-for="item in addForm.gradeList" :key="item.id" :value="item.id" :label="item.name"></el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item label="班级" prop="class">
+        <el-select v-model="addForm.class">
+          <el-option v-for="item in addForm.classList" :key="item.id" :value="item.id" :label="item.name"></el-option>
+        </el-select>
       </el-form-item>
       <el-form-item prop="finish">
         <el-button @click="submitForm" type="success">确定添加</el-button>
@@ -28,6 +35,7 @@
 </template>
 
 <script>
+import qs from 'qs'
 export default {
   name: 'AddStudent',
   props: ['visible'],
@@ -43,7 +51,10 @@ export default {
         sex: [
           {required: true, message: '请选择性别', trigger: 'change'}
         ],
-        classForm: [
+        grade: [
+          {required: true, message: '请选择年级', trigger: 'change'}
+        ],
+        class: [
           {required: true, message: '请选择班级', trigger: 'change'}
         ]
       },
@@ -54,91 +65,53 @@ export default {
         phone: '',
         qq: '',
         grade: '',
-        clazz: '',
-        classForm: '',
-        gradeList: [{
-          label: '2013级',
-          value: '2013级',
-          children: [{
-            label: '1班',
-            value: '1班'
-          }, {
-            label: '2班',
-            value: '2班'
-          }, {
-            label: '3班',
-            value: '3班'
-          }, {
-            label: '4班',
-            value: '4班'
-          }]
-        }, {
-          label: '2014级',
-          value: '2014级',
-          children: [{
-            label: '1班',
-            value: '1班'
-          }, {
-            label: '2班',
-            value: '2班'
-          }, {
-            label: '3班',
-            value: '3班'
-          }, {
-            label: '4班',
-            value: '4班'
-          }]
-        }, {
-          label: '2015级',
-          value: '2015级',
-          children: [{
-            label: '1班',
-            value: '1班'
-          }, {
-            label: '2班',
-            value: '2班'
-          }, {
-            label: '3班',
-            value: '3班'
-          }, {
-            label: '4班',
-            value: '4班'
-          }, {
-            label: '5班',
-            value: '5班'
-          }]
-        }]
+        gradeList: [],
+        class: '',
+        classList: [],
+        classForm: ''
       }
     }
   },
+  created () {
+    /* 请求所有年级 */
+    this.axios.get('/system/list?method=listAllGrade')
+      .then(res => {
+        if (res.data.code === '200') {
+          this.addForm.gradeList = res.data.data
+        }
+      })
+  },
   methods: {
-    handleChange (label) {
-      this.addForm.grade = label[0]
-      this.addForm.clazz = label[1]
+    /* 根据年级id请求班级 */
+    getClassList (val) {
+      this.axios.get('/system/list?method=listClazzByGradeId&gradeId=' + val)
+        .then(res => {
+          if (res.data.code === '200') {
+            this.addForm.classList = res.data.data
+          }
+        })
     },
     submitForm () {
       this.$refs.addForm.validate((valid) => {
         if (valid) {
           let body = {
-            method: 'addStudent',
-            student: {
-              number: this.addForm.number,
-              name: this.addForm.name,
-              sex: this.addForm.sex,
-              phone: this.addForm.phone,
-              qq: this.addForm.qq,
-              clazz: this.addForm.clazz,
-              grade: this.addForm.grade
-            }
+            'number': this.addForm.number,
+            'name': this.addForm.name,
+            'sex': this.addForm.sex,
+            'phone': this.addForm.phone,
+            'qq': this.addForm.qq,
+            'gradeId': this.addForm.grade,
+            'clazzId': this.addForm.class
           }
-          console.log(JSON.stringify(body))
-          this.axios.post('system/add', JSON.stringify(body))
+          this.axios.post('system/addStudent', qs.stringify(body))
             .then(res => {
               if (res.data.code === '200') {
                 this.$message({
                   message: '添加成功',
                   type: 'success'
                 })
+                /* 刷新页面 */
+                this.$router.go(0)
               } else {
                 this.$message({
                   message: '添加失败',
