@@ -17,22 +17,22 @@
         <i class="em em-cookie" aria-role="presentation" aria-label="COOKIE"></i>&nbsp;&nbsp;成绩统计
       </template>
       <el-row>
-        <el-col :span="8">135(含)~150分</el-col>
+        <el-col :span="8">135(含)~150分{{this.excellentCounts}}人</el-col>
         <el-col :span="12"><el-progress :text-inside="true" :stroke-width="26" :percentage=this.excellent status="success"></el-progress></el-col>
       </el-row>
       <div style="margin-top: 20px"></div>
       <el-row>
-        <el-col :span="8">120(含)~130分</el-col>
+        <el-col :span="8">120(含)~130分{{this.goodCounts}}人</el-col>
         <el-col :span="12"><el-progress :text-inside="true" :stroke-width="26" :percentage=this.good></el-progress></el-col>
       </el-row>
       <div style="margin-top: 20px"></div>
       <el-row>
-        <el-col :span="8">90(含)~120分</el-col>
+        <el-col :span="8">90(含)~120分{{this.justSoSoCounts}}人</el-col>
         <el-col :span="12"><el-progress :text-inside="true" :stroke-width="26" :percentage=this.justSoSo status="warning"></el-progress></el-col>
       </el-row>
       <div style="margin-top: 20px"></div>
       <el-row>
-        <el-col :span="8">低于90分</el-col>
+        <el-col :span="8">低于90分{{this.dissatisfiedCounts}}人</el-col>
         <el-col :span="12"><el-progress :text-inside="true" :stroke-width="26" :percentage=this.dissatisfied status="exception"></el-progress></el-col>
       </el-row>
       <el-row>
@@ -62,41 +62,41 @@ export default {
       dissatisfied: 0,
       great: false,
       notBad: false,
-      bad: false
+      bad: false,
+      excellentCounts: 0,
+      goodCounts: 0,
+      justSoSoCounts: 0,
+      dissatisfiedCounts: 0
     }
   },
   watch: {
     // 当对话框被唤起的时候，完成数据分析
     'visible': function (val) {
       if (val) {
-        var excellent = 0
-        var good = 0
-        var justSoSo = 0
-        var dissatisfied = 0
         this.scores = this.scoreData
         var end = this.scores.length - 1
         this.maxScore = this.scores[end].score
         this.minScore = this.scores[0].score
-        this.sum = parseInt(this.scores[0].score)
-        for (let i = 1; i < end + 1; i++) {
+        this.sum = 0
+        for (let i = 0; i < end + 1; i++) {
           // 计算总分
           this.sum = this.sum + parseInt(this.scores[i].score)
           // 计算优秀
-          if (parseInt(this.scores[i].score) >= 135 && parseInt(this.scores[i].score) < 150) {
-            excellent++
+          if (parseInt(this.scores[i].score) >= 135 && parseInt(this.scores[i].score) <= 150) {
+            this.excellentCounts++
           } else if (parseInt(this.scores[i].score) >= 120 && parseInt(this.scores[i].score) < 135) {
-            good++
+            this.goodCounts++
           } else if (parseInt(this.scores[i].score) >= 90 && parseInt(this.scores[i].score) < 120) {
-            justSoSo++
+            this.justSoSoCounts++
           } else {
-            dissatisfied++
+            this.dissatisfiedCounts++
           }
         }
         // 计算各个分数段的百分比
-        this.excellent = Number((excellent * 100 / (parseInt(end) + 1)).toFixed(2)) // 转换成number型
-        this.good = Number((good * 100 / (parseInt(end) + 1)).toFixed(2))
-        this.justSoSo = Number((justSoSo * 100 / (parseInt(end) + 1)).toFixed(2))
-        this.dissatisfied = Number((dissatisfied * 100 / (parseInt(end) + 1)).toFixed(2))
+        this.excellent = Number((this.excellentCounts * 100 / (parseInt(end) + 1)).toFixed(2)) // 转换成number型
+        this.good = Number((this.goodCounts * 100 / (parseInt(end) + 1)).toFixed(2))
+        this.justSoSo = Number((this.justSoSoCounts * 100 / (parseInt(end) + 1)).toFixed(2))
+        this.dissatisfied = Number((this.dissatisfiedCounts * 100 / (parseInt(end) + 1)).toFixed(2))
         // this.sum = parseInt(this.scores[0].score) + parseInt(this.scores[1].score)
         this.average = (this.sum / (parseInt(end) + 1)).toFixed(2)
         // console.log(this.maxScore, this.minScore, this.TopThree, this.sum)

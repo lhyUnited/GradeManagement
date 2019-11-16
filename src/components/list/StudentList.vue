@@ -5,7 +5,7 @@
     <el-button type="danger" style="float: left"  @click="deleteStudent">删除</el-button>
     <el-input style="width: 200px;" placeholder="请输入任意关键词进行查询" v-model="keyWord"></el-input>
     <el-button @click="clearField">清空</el-button>
-    <div style="float: right"><a>总计{{studentData.length}}条数据</a></div>
+    <div style="float: right"><a>总计{{studentData == null ? 0 : studentData.length}}条数据</a></div>
     <el-table
       ref="table"
       max-height="500"

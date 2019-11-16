@@ -13,6 +13,7 @@ import ExamListByTeacher from '@/components/list/ExamListByTeacher'
 import ExamDetail from '@/components/ExamDetail'
 import StudentListByClazz from '@/components/list/StudentListByClazz'
 import ExamListByStudent from '@/components/list/ExamListByStudent'
+import PersonInfo from '@/components/list/PersonInfo'
 Vue.use(Router)
 
 export default new Router({
@@ -39,6 +40,11 @@ export default new Router({
         title: '主页'
       },
       children: [{
+        path: 'showMyInfo',
+        name: 'ShowMyInfo',
+        component: PersonInfo
+      },
+      {
         path: 'listExamByStudent',
         name: 'ListExamByStudent',
         component: ExamListByStudent
@@ -66,51 +72,32 @@ export default new Router({
       {
         path: 'listAllClazz',
         name: 'ListAllClass',
-        component: ClazzList,
-        meta: {
-          isLogin: true,
-          title: '班级列表'
-        }
+        component: ClazzList
       },
       {
         path: 'listAllTeacher',
         name: 'ListAllTeacher',
-        component: TeacherList,
-        meta: {
-          isLogin: true
-        }
+        component: TeacherList
       },
       {
         path: 'listAllCourse',
         name: 'ListAllCourse',
-        component: CourseList,
-        meta: {
-          isLogin: true
-        }
+        component: CourseList
       },
       {
         path: 'listAllGrade',
         name: 'ListAllGrade',
-        component: GradeList,
-        meta: {
-          isLogin: true
-        }
+        component: GradeList
       },
       {
         path: 'listAllStudent',
         name: 'ListAllStudent',
-        component: StudentList,
-        meta: {
-          isLogin: true
-        }
+        component: StudentList
       },
       {
         path: 'listAllExam',
         name: 'ListAllExam',
-        component: ExamList,
-        meta: {
-          isLogin: true
-        }
+        component: ExamList
       }]
 
     }

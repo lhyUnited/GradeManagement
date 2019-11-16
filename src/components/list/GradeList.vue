@@ -4,7 +4,7 @@
     <add-grade :visible.sync="visible"></add-grade>
     <el-button type="success" style="float: left" @click="showAddDialog">添加</el-button>
     <el-button type="danger" style="float: left"  @click="deleteGrade">删除</el-button>
-    <el-button type="info" style="float: left"  @click="showAddCourseDialog" :disabled="disabled">添加班级</el-button>
+    <el-button type="info" style="float: left"  @click="showAddCourseDialog" :disabled="disabled">添加课程</el-button>
     <el-input placeholder="请输入任意关键词查询" style="width: 200px" v-model="keyWord"></el-input>
     <el-button @click="clearField">清空</el-button>
     <div style="float: right"><a>总计{{gradeData.length}}条数据</a></div>

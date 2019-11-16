@@ -1,14 +1,10 @@
 <template>
-  <el-dialog :visible="visible" title="我的信息">
     <el-table
       ref="table"
       max-height="500"
       :data="studentList"
       stripe
       style="width: 100%">
-      <el-table-column
-        type="selection"
-        width="60"></el-table-column>
       <el-table-column
         prop="id"
         label="学生ID"
@@ -50,17 +46,19 @@
         width="180">
       </el-table-column>
     </el-table>
-  </el-dialog>
 </template>
 
 <script>
 export default {
   name: 'PersonInfo',
-  props: ['visible'],
   data () {
     return {
-      studentList: ''
+      studentList: []
     }
+  },
+  created () {
+    this.studentList.push(JSON.parse(localStorage.getItem('StudentInfo')))
+    console.log(this.studentList)
   }
 }
 </script>

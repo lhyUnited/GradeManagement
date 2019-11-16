@@ -37,9 +37,9 @@ export default {
     return {
       tabNames: [],
       tabValue: '',
-      admin: '',
-      teacher: '',
-      student: ''
+      admin: false,
+      teacher: false,
+      student: false
     }
   },
   mounted () {

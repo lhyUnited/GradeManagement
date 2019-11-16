@@ -72,6 +72,21 @@ export default {
               type: 'success'
             })
             localStorage.setItem('UserInfo', JSON.stringify(res.data.data))
+            if (res.data.data.type === 2) {
+              var userInfo = JSON.parse(localStorage.getItem('UserInfo'))
+              this.axios.get('/student/listStudentByNumber?number=' + userInfo.account)
+                .then(res => {
+                  if (res.data.code === '200') {
+                    localStorage.setItem('StudentInfo', JSON.stringify(res.data.data))
+                  }
+                }).catch(error => {
+                  console.log(error)
+                  this.$message({
+                    message: '网络错误',
+                    type: 'error'
+                  })
+                })
+            }
             this.$router.push('/home/intro')
           } else if (res.data.code === '404') {
             this.$message({

@@ -7,7 +7,7 @@
     <el-button type="info" style="float: left"  @click="editTeacher" :disabled="disabled">添加课程</el-button>
     <el-input style="width: 200px;" placeholder="请输入任意关键词进行查询" v-model="keyWord"></el-input>
     <el-button @click="clearField">清空</el-button>
-    <div style="float: right"><a>总计{{teacherData.length}}条数据</a></div>
+    <div style="float: right"><a>总计{{teacherData == null ? 0 : teacherData.length}}条数据</a></div>
     <el-table
       @select="changeState"
       ref="table"
@@ -92,6 +92,7 @@ export default {
   methods: {
     changeState () {
       var _counts = this.$refs.table.selection
+      console.log(_counts)
       if (_counts.length > 0) {
         if (_counts.length === 1) {
           this.disabled = false

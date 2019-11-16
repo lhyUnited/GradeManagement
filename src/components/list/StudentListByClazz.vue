@@ -60,12 +60,13 @@ export default {
     return {
       studentList: [],
       studentId: '',
-      keyWord: ''
+      keyWord: '',
+      studentInfo: ''
     }
   },
   created () {
-    var studentInfo = JSON.parse(localStorage.getItem('StudentInfo'))
-    this.studentId = studentInfo.id
+    this.studentInfo = JSON.parse(localStorage.getItem('StudentInfo'))
+    this.studentId = this.studentInfo.id
     this.axios.get('/student/listClazzByStudent?studentId=' + this.studentId)
       .then(res => {
         if (res.data.code === '200') {
@@ -101,5 +102,4 @@ export default {
 </script>
 
 <style scoped>
-
 </style>

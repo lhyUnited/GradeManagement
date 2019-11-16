@@ -29,7 +29,7 @@
       </el-form-item>
       <el-form-item label="科目" prop="course">
           <el-select v-model="addForm.course" clearable>
-            <el-option v-for="item in addForm.courseList" :key="item.id" :value="item.id" :label="item.course"></el-option>
+            <el-option v-for="item in addForm.courseList" :key="item.id" :value="item.courseId" :label="item.course"></el-option>
           </el-select>
       </el-form-item>
       <el-form-item prop="finish">
@@ -92,6 +92,7 @@ export default {
         .then(res => {
           if (res.data.code === '200') {
             this.addForm.courseList = res.data.data
+            console.log(this.addForm.courseList)
           }
         })
     },
@@ -104,10 +105,10 @@ export default {
       this.$refs.addForm.validate((valid) => {
         if (valid) {
           if (this.addForm.class === '') {
-            this.addForm.type = 0
+            this.addForm.type = 1
             this.addForm.class = 0
           } else {
-            this.addForm.type = 1
+            this.addForm.type = 2
           }
           let body = {
             'name': this.addForm.name,

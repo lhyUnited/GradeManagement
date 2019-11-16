@@ -15,6 +15,11 @@
         width="100"
       ></el-table-column>
       <el-table-column
+        prop="score"
+        label="成绩"
+        width="100"
+      ></el-table-column>
+      <el-table-column
         prop="grade"
         label="年级"
         width="180"
@@ -39,11 +44,6 @@
         prop="clazz"
         label="考试班级"
       ></el-table-column>
-      <el-table-column>
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleClick(scope.$index, scope.row)">查看</el-button>
-        </template>
-      </el-table-column>
     </el-table>
   </el-row>
 </template>
@@ -53,6 +53,7 @@ export default {
   name: 'ExamListByStudent',
   data () {
     return {
+      keyWord: '',
       examList: []
     }
   },
@@ -85,8 +86,8 @@ export default {
     }
   },
   methods: {
-    handleClick (index, row) {
-      console.log(index, row)
+    clearField () {
+      this.keyWord = ''
     }
   }
 }

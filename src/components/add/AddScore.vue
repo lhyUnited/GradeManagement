@@ -45,6 +45,9 @@ export default {
   data () {
     var validateScore = (rule, value, callback) => {
       value = String(value)
+      if (value.length === 0) {
+        callback(new Error('请输入0~150的数字值'))
+      }
       for (let i = 0; i < value.length; i++) {
         if (value.charAt(i) < '0' || value.charAt(i) > '9') {
           callback(new Error('请输入0~150的数字值'))
@@ -90,19 +93,20 @@ export default {
         })
     },
     handleClose (done) {
-      this.$confirm('正在操作中，请不要关闭窗口', '警告', {
+      this.$confirm('正在操作中，请不要关闭窗口, 确认关闭将不会保存您做的修改', '警告', {
         confirmButtonText: '我就要关闭窗口',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
         this.$emit('update:visible', false)
+        this.$router.go(0)
       }).catch(() => {
         done()
       })
     },
     submitForm () {
-      var body = JSON.stringify(this.ruleForm.scoreData)
-      // console.log(body)
+      // var body = JSON.stringify(this.ruleForm.scoreData)
+      console.log(this.ruleForm.scoreData)
       this.$refs.rulForm.validate((valid) => {
         if (valid) {
           this.$confirm('确定提交吗？', '提交', {
@@ -110,13 +114,14 @@ export default {
             cancelButtonText: '取消',
             type: 'warning'
           }).then(() => {
-            this.axios.post('/teacher/addScore', body)
+            this.axios.post('/teacher/addScore', this.ruleForm.scoreData)
               .then(res => {
                 if (res.data.code === '200') {
                   this.$notify({
                     type: 'success',
                     message: '提交成功!'
                   })
+                  this.$router.go(0)
                 } else {
                   this.$message({
                     message: res.data.msg,

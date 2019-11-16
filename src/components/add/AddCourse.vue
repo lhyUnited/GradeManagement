@@ -107,7 +107,7 @@ export default {
                 this.$router.go(0)
               } else {
                 this.$message({
-                  message: '添加失败',
+                  message: res.data.msg,
                   type: 'error'
                 })
               }
