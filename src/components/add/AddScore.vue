@@ -106,7 +106,7 @@ export default {
     },
     submitForm () {
       // var body = JSON.stringify(this.ruleForm.scoreData)
-      console.log(this.ruleForm.scoreData)
+      // console.log(this.ruleForm.scoreData)
       this.$refs.rulForm.validate((valid) => {
         if (valid) {
           this.$confirm('确定提交吗？', '提交', {

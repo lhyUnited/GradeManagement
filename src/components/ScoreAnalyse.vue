@@ -37,6 +37,7 @@
       </el-row>
       <el-row>
         <p v-show="great" style="color: #409eff">考试情况非常优秀，非常棒</p>
+        <p v-show="nice" style="color: #67C23A">考试情况良好，继续保持</p>
         <p v-show="notBad">考试情况一般，再接再厉</p>
         <p v-show="bad" style="color: #f56c6c">不及格人数较多，请留意</p>
       </el-row>
@@ -61,6 +62,7 @@ export default {
       justSoSo: 0,
       dissatisfied: 0,
       great: false,
+      nice: false,
       notBad: false,
       bad: false,
       excellentCounts: 0,
@@ -101,13 +103,21 @@ export default {
         this.average = (this.sum / (parseInt(end) + 1)).toFixed(2)
         // console.log(this.maxScore, this.minScore, this.TopThree, this.sum)
         // 显示提示信息
-        if (this.excellent > 80 && this.dissatisfied < 20) {
+        if (this.excellent > 80) {
           this.great = true
-        } else if (this.excellent > 60 && this.dissatisfied < 40) {
+        } else if (this.good + this.justSoSo > 50) {
+          this.nice = true
+        } else if (this.justSoSo + this.good > 50) {
           this.notBad = true
         } else {
           this.bad = true
         }
+      } else {
+      //  关闭对话框后清空
+        this.excellentCounts = 0
+        this.goodCounts = 0
+        this.justSoSoCounts = 0
+        this.dissatisfiedCounts = 0
       }
     }
   },

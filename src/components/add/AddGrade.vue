@@ -21,7 +21,7 @@ export default {
         callback(new Error('请输入年级'))
       }
       for (let i = 0; i < this.addForm.gradeList.length; i++) {
-        if (value + '级' <= this.addForm.gradeList[i].name) {
+        if (value + '级' === this.addForm.gradeList[i].name) {
           callback(new Error('输入不合法'))
         }
       }callback()

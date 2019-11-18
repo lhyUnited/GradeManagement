@@ -16,7 +16,7 @@ Vue.use(Element)
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
 Vue.use(qs)
-axios.defaults.baseURL = 'http://192.168.43.200:6969/studentmanager/'
+axios.defaults.baseURL = 'http://localhost:6969/studentmanager/'
 axios.defaults.withCredentials = true
 
 // eslint-disable-next-line no-new
