@@ -25,14 +25,13 @@
 </template>
 
 <script>
-import ClassInfo from '@/components/ClassInfo'
 import HomeHeader from '@/components/HomeHeader'
 import AdminNav from '@/components/nav/AdminNav'
 import TeacherNav from '@/components/nav/TeacherNav'
 import StudentNav from '@/components/nav/StudentNav'
 export default {
   name: 'HomePage',
-  components: {StudentNav, TeacherNav, AdminNav, HomeHeader, ClassInfo},
+  components: {StudentNav, TeacherNav, AdminNav, HomeHeader},
   data () {
     return {
       tabNames: [],
