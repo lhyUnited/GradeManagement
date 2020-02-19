@@ -6,7 +6,7 @@
 
 ``` bash
 端口：8888
-路由模式： history
+路由模式： hash
 axios配置文件在main.js中
 ```
 
