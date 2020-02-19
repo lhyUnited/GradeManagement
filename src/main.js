@@ -16,7 +16,8 @@ Vue.use(Element)
 Vue.use(VueRouter)
 Vue.use(VueAxios, axios)
 Vue.use(qs)
-axios.defaults.baseURL = 'http://localhost:6969/studentmanager/'
+Vue.config.devtools = true
+axios.defaults.baseURL = 'http://www.tomluvjerry.cn:5567/studentmanager/'
 axios.defaults.withCredentials = true
 
 // eslint-disable-next-line no-new
@@ -29,7 +30,10 @@ new Vue({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some(record => record.meta.isLogin)) { // 判断该路由是否需要登录权限
-    if (!localStorage.getItem('UserInfo') && to.name !== '/login') {
+    if (to.name !== 'LoginPage') {
+      console.log('motherfucker')
+    }
+    if (!localStorage.getItem('UserInfo') && to.name !== 'LoginPage') {
       next('/')
       console.log('进入了这个判断')
     } else {
